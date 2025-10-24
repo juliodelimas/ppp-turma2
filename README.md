@@ -1,36 +1,49 @@
-# API de Progressão de Alunos de Música
+# API Progressão de Alunos de Música
 
-Esta API REST permite o acompanhamento da progressão de alunos de música, com funcionalidades para registro de instrutores, alunos, lições e progresso dos alunos.
+## Descrição
+API Rest para acompanhamento da progressão de alunos de música. Permite registro e autenticação de instrutores e alunos, cadastro de lições, registro de progresso e consulta de progresso dos alunos.
 
 ## Funcionalidades
 - Registro e login de instrutor
 - Registro e login de aluno
-- Registro de lições
+- Cadastro de lições
 - Registro de lições realizadas pelo aluno
 - Consulta de progresso do aluno
-
-## Regras de acesso
-- Instrutores: acesso total às funcionalidades após login
-- Alunos: acesso apenas à consulta de progresso após login
-
-## Autenticação
-- Middleware JWT para autenticação
-- Regras de acesso implementadas conforme perfil
+- Autenticação via JWT
+- Documentação Swagger
 
 ## Estrutura do Projeto
-- `src/routes`: Rotas da API
-- `src/controllers`: Lógica dos endpoints
-- `src/services`: Regras de negócio
-- `src/models`: Modelos de dados (em memória)
-- `resources`: Documentação Swagger
+- `routes/` - Rotas da API
+- `controllers/` - Lógica de controle das rotas
+- `service/` - Regras de negócio e manipulação dos dados
+- `model/` - Modelos de dados
+- `resources/` - Documentação Swagger
+- `middleware/` - Middleware de autenticação
 
 ## Banco de Dados
-- Utiliza armazenamento em memória
+- Utiliza armazenamento em memória (não persiste dados após reiniciar o servidor)
 
-## Documentação
-- Disponível em `resources/swagger.yaml`
+## Autenticação
+- Instrutores: acesso total às funcionalidades
+- Alunos: acesso apenas à consulta de progresso
+- Autenticação via JWT, middleware controla acesso por tipo de usuário
+
+## Documentação Swagger
+- Disponível em `/swagger` após iniciar o servidor
 
 ## Como executar
-1. Instale as dependências: `npm install`
-2. Inicie o servidor: `npm start`
-3. Acesse a documentação Swagger conforme instruções no projeto
+1. Instale as dependências:
+   ```bash
+   npm install express jsonwebtoken swagger-ui-express js-yaml
+   ```
+2. Inicie o servidor:
+   ```bash
+   node app.js
+   ```
+3. Acesse a documentação Swagger em [http://localhost:3000/swagger](http://localhost:3000/swagger)
+
+## Endpoints principais
+Consulte o arquivo `resources/swagger.yaml` para detalhes dos endpoints e modelos de dados.
+
+## Observações
+- Este projeto é apenas para fins de demonstração e não deve ser usado em produção sem persistência de dados e segurança adequada.

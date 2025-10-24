@@ -2,13 +2,13 @@ openapi: 3.0.0
 info:
   title: API Progressão de Alunos de Música
   version: 1.0.0
-  description: API REST para acompanhamento da progressão de alunos de música.
+  description: API para acompanhamento da progressão de alunos de música.
 servers:
   - url: http://localhost:3000
 paths:
-  /api/instructor/register:
+  /instructors/register:
     post:
-      summary: Registro de instrutor
+      summary: Registrar instrutor
       requestBody:
         required: true
         content:
@@ -25,9 +25,9 @@ paths:
       responses:
         '201':
           description: Instrutor registrado
-  /api/instructor/login:
+  /instructors/login:
     post:
-      summary: Login de instrutor
+      summary: Login instrutor
       requestBody:
         required: true
         content:
@@ -41,10 +41,10 @@ paths:
                   type: string
       responses:
         '200':
-          description: Login realizado com sucesso
-  /api/student/register:
+          description: Token JWT
+  /students/register:
     post:
-      summary: Registro de aluno
+      summary: Registrar aluno
       requestBody:
         required: true
         content:
@@ -61,9 +61,9 @@ paths:
       responses:
         '201':
           description: Aluno registrado
-  /api/student/login:
+  /students/login:
     post:
-      summary: Login de aluno
+      summary: Login aluno
       requestBody:
         required: true
         content:
@@ -77,10 +77,10 @@ paths:
                   type: string
       responses:
         '200':
-          description: Login realizado com sucesso
-  /api/lessons:
+          description: Token JWT
+  /lessons:
     post:
-      summary: Registro de lição (instrutor)
+      summary: Criar lição
       security:
         - bearerAuth: []
       requestBody:
@@ -96,7 +96,7 @@ paths:
                   type: string
       responses:
         '201':
-          description: Lição registrada
+          description: Lição criada
     get:
       summary: Listar lições
       security:
@@ -104,17 +104,9 @@ paths:
       responses:
         '200':
           description: Lista de lições
-  /api/progress:
-    get:
-      summary: Consultar progresso do aluno
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Progresso do aluno
-  /api/progress/complete:
+  /progress:
     post:
-      summary: Registrar lição realizada pelo aluno
+      summary: Registrar progresso do aluno
       security:
         - bearerAuth: []
       requestBody:
@@ -124,11 +116,27 @@ paths:
             schema:
               type: object
               properties:
+                studentId:
+                  type: integer
                 lessonId:
-                  type: string
+                  type: integer
       responses:
         '201':
-          description: Lição marcada como realizada
+          description: Progresso registrado
+  /students/progress/{studentId}:
+    get:
+      summary: Consultar progresso do aluno
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Progresso do aluno
 components:
   securitySchemes:
     bearerAuth:

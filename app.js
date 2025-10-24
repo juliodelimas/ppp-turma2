@@ -1,19 +1,24 @@
-
 const express = require('express');
 const app = express();
-const routes = require('./src/routes');
-const swaggerUi = require('swagger-ui-express');
-const fs = require('fs');
-const yaml = require('js-yaml');
-
-const swaggerDocument = yaml.load(fs.readFileSync('./resources/swagger.yaml', 'utf8'));
+const instructorRoutes = require('./routes/instructorRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+const lessonRoutes = require('./routes/lessonRoutes');
+const progressRoutes = require('./routes/progressRoutes');
+const swaggerRoutes = require('./routes/swaggerRoutes');
 
 app.use(express.json());
-app.use('/api', routes);
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use('/instructors', instructorRoutes);
+app.use('/students', studentRoutes);
+app.use('/lessons', lessonRoutes);
+app.use('/progress', progressRoutes);
+app.use('/swagger', swaggerRoutes);
+
+app.get('/', (req, res) => {
+  res.send('API Progressão de Alunos de Música');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
-  console.log('Documentação Swagger disponível em /swagger');
 });
